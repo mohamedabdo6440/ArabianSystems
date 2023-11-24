@@ -5,8 +5,9 @@ import styles from "@/styles/Home.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomeComp from "@/components/homeComp/HomeComp";
 import { carsData } from "../../carsData";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import LayOut from "@/components/layout/LayOut";
+import { useRouter } from "next/router";
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap.bundle");
 }
@@ -14,17 +15,16 @@ if (typeof window !== "undefined") {
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [Searchkey, setSearchkey] = useState("");
-  const [priceRange, setPriceRange] = useState<string[]>(["110000"]);
+  const router = useRouter();
+  const { query } = router;
+
   const [itemsCount, setItemsCount] = useState(carsData.length);
   const [Cars, setCars] = useState(carsData);
 
+  console.log(query)
 
-console.log(priceRange)
   const handleSearch = (searchTerm: any) => {
     const term = searchTerm.toLowerCase();
-    setSearchkey(term);
-
     if (term.length > 2) {
       const filtered = carsData.filter(
         (car) =>
@@ -32,22 +32,28 @@ console.log(priceRange)
           car.Category.toLowerCase().includes(term)
       );
 
+      const sortedByDesc = [...filtered].sort((a:any, b:any) => {
+        return query?.orderby === "price" ? a.CurrentPriceStr.localeCompare(b.CurrentPriceStr)  : b.FilterEndDateStr.localeCompare(a.FilterEndDateStr);
+      });
+      console.log(sortedByDesc)
       const sorted = [...filtered].sort((a, b) =>
         a.Title.localeCompare(b.Title)
       );
-      setCars(sorted);
+      
+      setCars(sortedByDesc);
       setItemsCount(filtered.length !== 0 ? filtered.length : carsData.length);
     }
   };
-
+ 
   useEffect(() => {
-    if (Searchkey !== "") {
-      handleSearch(Searchkey);
+    const lengthQ:number = Number(query?.q?.length);
+    if (lengthQ > 2 ) {
+      handleSearch(query?.q);
     } else {
       setCars(carsData);
       setItemsCount(carsData.length);
     }
-  }, [Searchkey]);
+  }, [query]);
 
 
   return (
@@ -60,13 +66,9 @@ console.log(priceRange)
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <LayOut
-          setSearchkey={setSearchkey}
-          Searchkey={Searchkey}
           itemsCount={itemsCount}
-          priceRange={priceRange}
-          setPriceRange={setPriceRange}
         >
-          <HomeComp carsData={Cars.length !== 0 ? Cars : carsData} />
+          <HomeComp carsData={Cars.length !== 0 ? Cars : carsData}/>
         </LayOut>
       </main>
     </>
