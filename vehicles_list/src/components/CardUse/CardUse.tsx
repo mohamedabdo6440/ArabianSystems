@@ -8,15 +8,13 @@ import { SlSpeedometer } from "react-icons/sl";
 import { MdAlarm } from "react-icons/md";
 import { ImHammer2 } from "react-icons/im";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 interface CarDetails {
   Id: number;
   MainImage: string;
   Lot: string;
   Title: string;
-  AllowToBid: boolean;
-  IsExclusive: boolean;
-  HasNotification: boolean;
   EndDateStr: string;
   Bids: number;
   Tags: any;
@@ -43,9 +41,6 @@ const CardUse: FC<Props> = (props) => {
     MainImage,
     Lot,
     Title,
-    AllowToBid,
-    IsExclusive,
-    HasNotification,
     EndDateStr,
     Bids,
     Tags,
@@ -54,6 +49,8 @@ const CardUse: FC<Props> = (props) => {
     highestBids,
     lowestBids,
   } = props;
+
+  const router = useRouter();
 
   const [imageLoaded, setImageLoaded] = useState(true);
 
@@ -67,6 +64,30 @@ const CardUse: FC<Props> = (props) => {
     "[h]",
     height.toString()
   );
+
+  const handleBidDetail = ()=>{
+    const url = `carDetails/${Title.replace(/ /g,"_")}`;
+   
+        router.push(
+            {
+                pathname: url,
+                query: {
+                  Id,
+                  MainImage,
+                  Lot,
+                  Title,
+                  EndDateStr,
+                  Bids,
+                  Tags,
+                  Currency,
+                  CurrentPriceStr,
+                  highestBids,
+                  lowestBids,
+                },
+            },
+            url
+        )
+  }
 
   return (
     <div key={Id}>
@@ -201,7 +222,7 @@ const CardUse: FC<Props> = (props) => {
               <p className="text-secondary fs-6 fw-bold mb-2">{Currency}</p>
               <p className="mb-0 ms-1 fw-bold fs-6">{CurrentPriceStr}</p>
             </div>
-            <div className="text-center w-100">
+            <div onClick={handleBidDetail} className="text-center w-100">
               {
                 Bids === highestBids ? (
                   <button className="btn btn bg-dark text-light w-75">

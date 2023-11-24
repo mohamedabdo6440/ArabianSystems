@@ -21,8 +21,6 @@ export default function Home() {
   const [itemsCount, setItemsCount] = useState(carsData.length);
   const [Cars, setCars] = useState(carsData);
 
-  console.log(query)
-
   const handleSearch = (searchTerm: any) => {
     const term = searchTerm.toLowerCase();
     if (term.length > 2) {

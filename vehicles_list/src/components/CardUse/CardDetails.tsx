@@ -57,6 +57,7 @@ const CardDetails: FC<Props> = (props) => {
 
   const [imageLoaded, setImageLoaded] = useState(true);
 
+
   const handleImageError = () => {
     setImageLoaded(false);
   };
