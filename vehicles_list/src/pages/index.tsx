@@ -18,7 +18,7 @@ export default function Home() {
   const { query } = router;
 
   const [itemsCount, setItemsCount] = useState(carsData.length);
-  const [Cars, setCars] = useState(carsData);
+  const [Cars, setCars] = useState([]);
 
   //this function handle search and sort on all data 
   const handleSortAndSearch = (searchTerm: any, sortBy: any) => {
