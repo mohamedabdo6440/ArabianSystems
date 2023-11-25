@@ -1,5 +1,4 @@
 'use client'
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import style from "./SearchBar.module.scss";
 import { MdSearch } from "react-icons/md";

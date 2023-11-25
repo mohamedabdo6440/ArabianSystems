@@ -1,11 +1,10 @@
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomeComp from "@/components/homeComp/HomeComp";
 import { carsData } from "../../carsData";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LayOut from "@/components/layout/LayOut";
 import { useRouter } from "next/router";
 if (typeof window !== "undefined") {
@@ -21,6 +20,7 @@ export default function Home() {
   const [itemsCount, setItemsCount] = useState(carsData.length);
   const [Cars, setCars] = useState(carsData);
 
+  //this function handle search and sort on all data 
   const handleSortAndSearch = (searchTerm: any, sortBy: any) => {
     let filtered = carsData;
   
@@ -52,7 +52,7 @@ export default function Home() {
         return dateA - dateB;
       });
     }
-  
+
     setCars(filtered);
     setItemsCount(filtered.length !== 0 ? filtered.length : carsData.length);
   };
@@ -61,11 +61,6 @@ export default function Home() {
     handleSortAndSearch(query?.q , query?.orderby);
   }, [query]);
   
-  console.log(query);
-  console.log(Cars);
-  
-
-
   return (
     <>
       <Head>

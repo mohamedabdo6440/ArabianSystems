@@ -4,7 +4,6 @@ import style from "./CardUse.module.scss";
 import { CiHeart, CiCamera } from "react-icons/ci";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { RiPushpinFill } from "react-icons/ri";
-import { IoMdSpeedometer } from "react-icons/io";
 import { SlSpeedometer } from "react-icons/sl";
 import { MdAlarm } from "react-icons/md";
 import { ImHammer2 } from "react-icons/im";
