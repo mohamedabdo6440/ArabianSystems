@@ -29,23 +29,34 @@ const HomeComp: FC<Props> = ({ carsData, isLoading }) => {
 
   return (
     <div className="d-flex flex-wrap justify-content-center">
-      {isClient && isLoading ? (
-        carsData?.map((CarDetail: any) => (
-          <CardUse
-            {...CarDetail}
-            highestBids={highestBids?.Bids}
-            lowestBids={lowestBids?.Bids}
-            key={CarDetail.Lot}
-          />
-        ))
-      ) : (
-       <>
-        <CardLoading buttColor={"danger"}/>
-        <CardLoading buttColor={"danger"}/>
-        <CardLoading buttColor={"dark"}/>
-        <CardLoading buttColor={"danger"}/>
-       </>
-      )}
+
+      {
+        carsData.length !== 0 ? (
+          isClient && isLoading ? (
+            carsData?.map((CarDetail: any) => (
+              <CardUse
+                {...CarDetail}
+                highestBids={highestBids?.Bids}
+                lowestBids={lowestBids?.Bids}
+                key={CarDetail.Lot}
+              />
+            ))
+          ) : (
+           <>
+            <CardLoading buttColor={"danger"}/>
+            <CardLoading buttColor={"danger"}/>
+            <CardLoading buttColor={"dark"}/>
+            <CardLoading buttColor={"danger"}/>
+           </>
+          )
+        ) : (
+          <div className=" my-5">
+            <p className="text-danger">Your search did not match any results. !</p>
+            <p className="text-secondary">- Make sure to write your search words accurately.</p>
+            </div>
+        )
+      }
+     
     </div>
   );
 };

@@ -30,9 +30,10 @@ const [isLoading , setIsLoading]=useState(false)
   },[])
 
   console.log(isLoading)
+  console.log(Cars)
   //this function handle search and sort on all data 
   const handleSortAndSearch = (searchTerm: any, sortBy: any) => {
-    let filtered = Cars;
+    let filtered = carsData;
   
     // Handle search
     if (searchTerm?.length > 2) {
@@ -64,7 +65,7 @@ const [isLoading , setIsLoading]=useState(false)
     }
 
     setCars(filtered);
-    setItemsCount(filtered.length !== 0 ? filtered.length : carsData.length);
+    setItemsCount(filtered.length);
   };
   
   useEffect(() => {
