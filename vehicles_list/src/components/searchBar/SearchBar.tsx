@@ -124,7 +124,7 @@ const handleSortChange = (SortValue: string , SortDescValue : any) => {
                 type="submit"
                 disabled={!isLoading}
               >
-                End Data
+                End Date
               </button>
             </div>
           </div>
