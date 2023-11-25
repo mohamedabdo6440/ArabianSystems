@@ -21,37 +21,49 @@ export default function Home() {
   const [itemsCount, setItemsCount] = useState(carsData.length);
   const [Cars, setCars] = useState(carsData);
 
-  const handleSearch = (searchTerm: any) => {
-    const term = searchTerm.toLowerCase();
-    if (term.length > 2) {
-      const filtered = carsData.filter(
+  const handleSortAndSearch = (searchTerm: any, sortBy: any) => {
+    let filtered = carsData;
+  
+    // Handle search
+    if (searchTerm?.length > 2) {
+      const term = searchTerm.toLowerCase();
+      filtered = carsData.filter(
         (car) =>
           car.Title.toLowerCase().includes(term) ||
           car.Category.toLowerCase().includes(term)
       );
-
-      const sortedByDesc = [...filtered].sort((a:any, b:any) => {
-        return query?.orderby === "price" ? a.CurrentPriceStr.localeCompare(b.CurrentPriceStr)  : b.FilterEndDateStr.localeCompare(a.FilterEndDateStr);
+    }
+  
+    // Handle sort
+    if (sortBy === 'price') {
+      filtered = [...filtered].sort((a: any, b: any) => {
+        const priceA = parseFloat(a.CurrentPriceStr.replace(/,/g, ''));
+        const priceB = parseFloat(b.CurrentPriceStr.replace(/,/g, ''));
+        return priceA - priceB;
       });
-      console.log(sortedByDesc)
-      const sorted = [...filtered].sort((a, b) =>
-        a.Title.localeCompare(b.Title)
-      );
-      
-      setCars(sortedByDesc);
-      setItemsCount(filtered.length !== 0 ? filtered.length : carsData.length);
+    } else if (sortBy === 'years') {
+      filtered = [...filtered].sort((a: any, b: any) => {
+        return b.Year - a.Year;
+      });
+    } else if (sortBy === 'endDate') {
+      filtered = [...filtered].sort((a: any, b: any) => {
+        const dateA = new Date(a.FilterEndDateStr).getTime();
+        const dateB = new Date(b.FilterEndDateStr).getTime();
+        return dateA - dateB;
+      });
     }
+  
+    setCars(filtered);
+    setItemsCount(filtered.length !== 0 ? filtered.length : carsData.length);
   };
- 
+  
   useEffect(() => {
-    const lengthQ:number = Number(query?.q?.length);
-    if (lengthQ > 2 ) {
-      handleSearch(query?.q);
-    } else {
-      setCars(carsData);
-      setItemsCount(carsData.length);
-    }
+    handleSortAndSearch(query?.q , query?.orderby);
   }, [query]);
+  
+  console.log(query);
+  console.log(Cars);
+  
 
 
   return (
@@ -63,10 +75,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-        <LayOut
-          itemsCount={itemsCount}
-        >
-          <HomeComp carsData={Cars.length !== 0 ? Cars : carsData}/>
+        <LayOut itemsCount={itemsCount}>
+          <HomeComp carsData={Cars.length !== 0 ? Cars : carsData} />
         </LayOut>
       </main>
     </>

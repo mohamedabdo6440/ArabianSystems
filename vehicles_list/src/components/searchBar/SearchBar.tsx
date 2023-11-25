@@ -1,8 +1,8 @@
+'use client'
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import style from "./SearchBar.module.scss";
 import { MdSearch } from "react-icons/md";
-import { Form } from "react-bootstrap";
 import { useRouter } from "next/router";
 
 interface SearchPropsWords {
@@ -21,12 +21,12 @@ const { q: searchTerm, orderby: orderBy, isDesc } = query;
 
 const [search, setSearch] = useState(searchTerm || '');
 const [sortBy, setSortBy] = useState(orderBy || '');
-const [sortDesc, setSortDesc] = useState(isDesc === '');
+const [sortDesc, setSortDesc] = useState(isDesc || '');
 
 const updateURL = () => {
   if (search) query.q = search;
   if (sortBy) query.orderby = sortBy;
-  if (sortDesc) query.isDesc = 'true';
+  if (sortDesc) query.isDesc = `${sortDesc}`;
 
   router.push({
     pathname: '/',
@@ -46,9 +46,9 @@ const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   }
 };
 
-const handleSortChange = (value: string) => {
-  setSortBy(value);
-  setSortDesc(!sortDesc);
+const handleSortChange = (SortValue: string , SortDescValue : any) => {
+  setSortBy(SortValue);
+  setSortDesc(SortDescValue);
   updateURL();
 };
 
@@ -101,21 +101,21 @@ const handleSortChange = (value: string) => {
           
             <div className="my-2">
               <button
-                onClick={() => handleSortChange('price')}
+                onClick={() => handleSortChange('price' , `${false}`)}
                 className="btn btn-outline-danger ms-2"
                 type="submit"
               >
                 Price
               </button>
               <button
-                onClick={() => handleSortChange('year')}
+                onClick={() => handleSortChange('years' , `${false}`)}
                 className="btn btn-outline-danger ms-2 me-2"
                 type="submit"
               >
                 Years
               </button>
               <button
-                onClick={() => handleSortChange('endTime')}
+                onClick={() => handleSortChange('endDate' , `${true}`)}
                 className="btn btn-outline-danger me-2"
                 type="submit"
               >

@@ -62,8 +62,8 @@ const CardDetails: FC<Props> = (props) => {
     setImageLoaded(false);
   };
 
-  const width: number = 300;
-  const height: number = 200;
+  const width: number = 350;
+  const height: number = 250;
   const formattedImageUrl = MainImage.replace("[w]", width.toString()).replace(
     "[h]",
     height.toString()
@@ -77,8 +77,6 @@ const CardDetails: FC<Props> = (props) => {
             <div
               className=""
               style={{
-                width: "16rem",
-                height: "150px",
                 backgroundImage: `url(${formattedImageUrl})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",

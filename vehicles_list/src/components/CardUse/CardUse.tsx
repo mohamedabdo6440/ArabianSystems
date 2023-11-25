@@ -1,3 +1,4 @@
+'use client'
 import React, { FC, useEffect, useState } from "react";
 import style from "./CardUse.module.scss";
 import { CiHeart, CiCamera } from "react-icons/ci";

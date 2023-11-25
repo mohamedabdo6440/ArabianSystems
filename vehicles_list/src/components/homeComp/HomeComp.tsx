@@ -1,6 +1,5 @@
-
+'use client'
 import React, { FC, useEffect, useState } from "react";
-import style from "./HomeComp.module.scss";
 import CardUse from "../CardUse/CardUse";
 
 interface Props {
