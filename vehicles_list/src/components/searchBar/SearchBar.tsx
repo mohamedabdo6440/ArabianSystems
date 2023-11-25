@@ -6,10 +6,12 @@ import { useRouter } from "next/router";
 
 interface SearchPropsWords {
   itemsCount: number;
+  isLoading:boolean;
 }
 
 const SearchBar: React.FC<SearchPropsWords> = ({
   itemsCount,
+  isLoading,
 }) => {
 
   const router = useRouter();
@@ -61,7 +63,7 @@ const handleSortChange = (SortValue: string , SortDescValue : any) => {
             </div>
             <div>
               <p className="fs-5">
-                <span className="text-danger">{itemsCount}</span> Available
+                <span className="text-danger">{isLoading ? itemsCount : 0}</span> Available
                 Items
               </p>
             </div>
@@ -91,6 +93,7 @@ const handleSortChange = (SortValue: string , SortDescValue : any) => {
                 placeholder="Search..."
                 aria-label="Search"
                 onChange={handleSearchChange}
+                disabled={!isLoading}
               />
               <span className={style.searchIcon}>
                 <MdSearch size={30} />
@@ -103,6 +106,7 @@ const handleSortChange = (SortValue: string , SortDescValue : any) => {
                 onClick={() => handleSortChange('price' , `${false}`)}
                 className="btn btn-outline-danger ms-2"
                 type="submit"
+                disabled={!isLoading}
               >
                 Price
               </button>
@@ -110,6 +114,7 @@ const handleSortChange = (SortValue: string , SortDescValue : any) => {
                 onClick={() => handleSortChange('years' , `${true}`)}
                 className="btn btn-outline-danger ms-2 me-2"
                 type="submit"
+                disabled={!isLoading}
               >
                 Years
               </button>
@@ -117,6 +122,7 @@ const handleSortChange = (SortValue: string , SortDescValue : any) => {
                 onClick={() => handleSortChange('endDate' , `${true}`)}
                 className="btn btn-outline-danger me-2"
                 type="submit"
+                disabled={!isLoading}
               >
                 End Data
               </button>

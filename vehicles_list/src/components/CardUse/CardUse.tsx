@@ -92,7 +92,7 @@ const CardUse: FC<Props> = (props) => {
   return (
     <div key={Id}>
       {isClient && (
-        <div className="card m-2" style={{ width: "16rem" }}>
+        <div className="card m-2 " style={{ width: "16rem" }}>
           {isClient && imageLoaded ? (
             <div
               className=""

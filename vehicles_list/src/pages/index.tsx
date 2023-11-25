@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomeComp from "@/components/homeComp/HomeComp";
-import { carsData } from "../../carsData";
+import { carsData,CarsDetails } from "../../carsData";
 import { useEffect, useState } from "react";
 import LayOut from "@/components/layout/LayOut";
 import { useRouter } from "next/router";
@@ -17,12 +17,22 @@ export default function Home() {
   const router = useRouter();
   const { query } = router;
 
+const [isLoading , setIsLoading]=useState(false)
   const [itemsCount, setItemsCount] = useState(carsData.length);
-  const [Cars, setCars] = useState([]);
+  const [Cars, setCars] = useState<CarsDetails[]>([]);
 
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      setCars(carsData);
+      setIsLoading(true)
+    },3000)
+  },[])
+
+  console.log(isLoading)
   //this function handle search and sort on all data 
   const handleSortAndSearch = (searchTerm: any, sortBy: any) => {
-    let filtered = carsData;
+    let filtered = Cars;
   
     // Handle search
     if (searchTerm?.length > 2) {
@@ -70,8 +80,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-        <LayOut itemsCount={itemsCount}>
-          <HomeComp carsData={Cars.length !== 0 ? Cars : carsData} />
+        <LayOut itemsCount={itemsCount} isLoading={isLoading}>
+          <HomeComp carsData={Cars} isLoading={isLoading}/>
         </LayOut>
       </main>
     </>
